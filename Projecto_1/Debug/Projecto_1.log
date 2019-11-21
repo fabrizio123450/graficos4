@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (Projecto_1.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
+  main.cpp
+c:\users\fabrizio\desktop\facultad\9no 2019\projecto_1\projecto_1\main.cpp(64): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+c:\users\fabrizio\desktop\facultad\9no 2019\projecto_1\projecto_1\main.cpp(73): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+  Projecto_1.vcxproj -> C:\Users\Fabrizio\Desktop\Facultad\9no 2019\Projecto_1\Debug\Projecto4.exe

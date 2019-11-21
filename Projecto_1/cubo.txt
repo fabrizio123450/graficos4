@@ -1,0 +1,53 @@
+Group{
+//tabla
+	cubo{
+		color (0.647059, 0.164706, 0.164706)
+		tran (0.0, 0.1, -0.1)
+		sca (4.0, 1.0, 4.0)
+		tam (0.1)
+	}
+//pata derecha abajo
+	cubo{
+		color (0.647059, 0.164706, 0.164706)
+		tran (0.1,0.0,0.0)
+		sca (0.3, 1.0, 0.3)
+		tam (0.1)
+	}
+//pata derecha arriba
+	cubo{
+		color (0.647059, 0.164706, 0.164706)
+		tran (0.1,0.0,-0.2)
+		sca (0.3, 1.0, 0.3)
+		tam (0.1)
+	}
+//pata izquierda abajo
+	cubo{
+		color (0.647059, 0.164706, 0.164706)
+		tran (-0.1, 0.0, 0.0)
+		sca (0.3, 1.0, 0.3)
+		tam (0.1)
+	}
+//pata izquierda arriba
+	cubo{
+		color (0.647059, 0.164706, 0.164706)
+		tran (-0.1, 0.0, -0.2)
+		sca (0.3, 1.0, 0.3)
+		tam (0.1)
+	}
+	
+//silla1
+	cubo{
+		color (0.435294, 0.258824, 0.258824)
+		tran (0.5, 0.0, -0.1)
+		sca (2.0, 1.0, 2.0)
+		tam (0.1)
+	}
+//silla2
+	cubo{
+		color (0.435294, 0.258824, 0.258824)
+		tran (-0.5, 0.0, -0.1)
+		sca (2.0, 1.0, 2.0)
+		tam (0.1)
+	}
+
+}
