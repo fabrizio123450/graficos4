@@ -1,5 +1,6 @@
 //#include "cubo.h"
 #include "tokens.h"
+int anglex = 0, angley = 0, anglez = 0;
 void init(void) {
 	glClearColor(0.623529f, 0.623529f, 0.372549f, 0.0);//inicializamos glut limpiando el color
 	glShadeModel(GL_SMOOTH);//para rellenar de color los polígonos. Si el parámetro es GL_FLAT, ogl rellenará los polígonos con el color activo
@@ -75,13 +76,20 @@ void tic() {
 
 }
 
-
+void rotate()
+{
+	glRotatef(anglex, 1.0, 0.0, 0.0);			//rotate along x-axis
+	glRotatef(angley, 0.0, 1.0, 0.0);			//rotate along y-axis	
+	glRotatef(anglez, 0.0, 0.0, 1.0);			//rotate along z-axis
+}
 void reshape(int w, int h) {
+	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glViewport(0, 0, w, h);
-	gluPerspective(45.0f, w / h, 0.1f, 100.0f);
+	gluPerspective(60.0, (GLfloat)w / (GLfloat)h, 1.0, 30.0);
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
 }
 /*
 renderisa con la posicion de la camara
@@ -93,10 +101,28 @@ void render_room() {
 	gluLookAt(x, 0.0f, z, //ojo
 		x + lx, 0.0f, z + lz,//mirar //arriba
 		0.0f, 1.0f, 0.0f);//inclinacion //centro
+	
+	rotate();
 	tic();
 	glutSwapBuffers();
 }
 /*uso del teclado*/
+void ArrowKey(int key, int x, int y) {
+	switch (key) {
+	//abajo
+	case GLUT_KEY_DOWN:
+		anglex = (anglex + 3) % 360;
+		break;
+		//derecha
+	case GLUT_KEY_RIGHT:
+		angley = (angley + 3) % 360;
+		break;
+	case 27: /* escape */
+		exit(0);
+	}
+	glutPostRedisplay();
+
+}
 void keyboard(unsigned char key, int xx, int yy) {
 	switch (key) {
 	case 'a'://izquierda
@@ -125,7 +151,31 @@ void keyboard(unsigned char key, int xx, int yy) {
 		z -= lz * 0.1f;
 		cout << "es en x " << x << " y en z " << z << endl;
 		break;
+	case GLUT_KEY_DOWN:
+		anglex = (anglex + 3) % 360;
+		break;
+	case 'l':
+		anglex = (anglex - 3) % 360;
+		break;
+	case 'y':
+		angley = (angley + 3) % 360;
+		break;
+	case 'Y':
+		angley = (angley - 3) % 360;
+		break;
+	case 'z':
+		anglez = (anglez + 3) % 360;
+		break;
+	case 'Z':
+		anglez = (anglez - 3) % 360;
+		break;
+	case 'r':
+		anglex = angley = anglez = 0;
+		break;
+	case 27: /* escape */
+		exit(0);
 	}
+	glutPostRedisplay();
 }
 
 int main(int argc, char** argv) {
@@ -142,6 +192,7 @@ int main(int argc, char** argv) {
 	glutDisplayFunc(render_room);
 	glutReshapeFunc(reshape);
 	glutIdleFunc(render_room);
+	glutSpecialFunc(ArrowKey);
 	glutKeyboardFunc(keyboard);
 	glEnable(GL_DEPTH_TEST);
 	glutMainLoop();
