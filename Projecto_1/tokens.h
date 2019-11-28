@@ -18,12 +18,13 @@ float angle = 0.0f;
 float lx = 0.0f, lz = -1.0f;
 // posicion de la camara
 float x = 0.0f, z = 2.5f;
-
+GLuint d;
 GLuint texture;
 GLuint LoadTexture(const char * filename)
 {
 
 	GLuint texture;
+	
 
 	int width, height;
 
@@ -71,8 +72,10 @@ GLuint LoadTexture(const char * filename)
 
 
 void cube(float x, float y, float z) {
+	glEnable(GL_TEXTURE_GEN_S);
+	glEnable(GL_TEXTURE_GEN_T);
+	glBindTexture(GL_TEXTURE_2D, d);
 	glPushMatrix();
-	glColor3f(0.1, 0.0, 0.3);
 	glShadeModel(GL_SMOOTH);
 	glTranslatef(x, y, z);
 	glScalef(0.25, 0.4, 0.25);
