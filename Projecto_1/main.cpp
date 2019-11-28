@@ -7,59 +7,11 @@ void init(void){
 /*Prueba de textura
 
 NO FUNCIONA*/
-GLuint LoadTexture(const char * filename)
-{
-
-	GLuint texture;
-
-	int width, height;
-
-	unsigned char * data;
-
-	FILE * file;
-
-	file = fopen(filename, "rb");
-
-	if (file == NULL) return 0;
-	width = 1024;
-	height = 512;
-	data = (unsigned char *)malloc(width * height * 3);
-	//int size = fseek(file,);
-	fread(data, width * height * 3, 1, file);
-	fclose(file);
-
-	for (int i = 0; i < width * height; ++i)
-	{
-		int index = i * 3;
-		unsigned char B, R;
-		B = data[index];
-		R = data[index + 2];
-
-		data[index] = R;
-		data[index + 2] = B;
-
-	}
-
-
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
-	free(data);
-
-	return texture;
-}
 //fin de prueba texturag//
 void tic() {	
 	//las posiciones se dan entre -0.4 0 y 0.4
 	/*Dibujo el cubo*/
-	for (float i = 0.0f; i < 1.2f; i+=0.4f) {
+	/*for (float i = 0.0f; i < 1.2f; i+=0.4f) {
 		if (i == 0.4f) {
 			//
 			//cubo centro abajo y = -0.4
@@ -79,7 +31,7 @@ void tic() {
 			cube(0.0, i, 0.0);
 		}
 		
-	}
+	}*/
 	/*
 	dibujo las esferas
 	*/
@@ -102,15 +54,15 @@ void tic() {
 				//
 				/*cambia el color segun el piso del tateti*/
 				if (y == 0.4f) {
-					glColor3f(1.0, 0.0, 0.0);
+					//glColor3f(1.0, 0.0, 0.0);
 					sphere(x, y, z);
 				}
 				else if (y == 0.0f) {
-					glColor3f(0.0, 0.0, 1.0);
+				//	glColor3f(0.0, 0.0, 1.0);
 					sphere(x, y, z);
 				}
 				else if (y == -0.4f) {
-					glColor3f(1.0, 0.0, 1.0);
+				//	glColor3f(1.0, 0.0, 1.0);
 					sphere(x, y, z);
 				}
 				
@@ -135,6 +87,7 @@ void reshape(int w, int h) {
 renderisa con la posicion de la camara
 */
 void render_room() {
+	glEnable(GL_TEXTURE_2D);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	gluLookAt(x, 0.0f, z, //ojo
@@ -182,6 +135,8 @@ int main(int argc, char** argv){
 	glutInitWindowPosition(50, 0);
 	glutCreateWindow("ROOM");
 	init();
+	texture = LoadTexture("b.bmp");
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glutDisplayFunc(render_room);
 	glutReshapeFunc(reshape);
 	glutIdleFunc(render_room);
