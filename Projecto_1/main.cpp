@@ -6,7 +6,7 @@
 //Camera camera;
 void init(void) {
 	ratio = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
-	glClearColor(0.623529f, 0.623529f, 0.372549f, 0.0);//inicializamos glut limpiando el color
+	glClearColor(0.0, 0.0, 0.0, 0.0);//inicializamos glut limpiando el color
 	glShadeModel(GL_SMOOTH);//para rellenar de color los polígonos. Si el parámetro es GL_FLAT, ogl rellenará los polígonos con el color activo
 	PlaySound("GB.wav",NULL, SND_ASYNC| SND_LOOP);
 }
@@ -59,31 +59,30 @@ void keyboard(unsigned char key, int xx, int yy) {
 		angle -= 0.01f;
 		lx = sin(angle);
 		lz = -cos(angle);
-		cout << "es en lx " << lx << " y en lz " << lz << endl;
 		break;
 	case 'd'://derecha
 	case 'D':
 		angle += 0.01f;
 		lx = sin(angle);
 		lz = -cos(angle);
-		cout << "es en lx " << lx << " y en lz " << lz << endl;
 		break;
 	case 'w'://adelante
 	case 'W':
 		x += lx * 0.1f;
 		z += lz * 0.1f;
-		cout << "es en x " << x << " y en z " << z << endl;
 		break;
 	case 's'://atras
 	case 'S':
 		x -= lx * 0.1f;
 		z -= lz * 0.1f;
-		cout << "es en x " << x << " y en z " << z << endl;
 		break;
 	//Reseteo mi tateti a la posicion original
 	case 'r':
 	case 'R':
 		anglex = angley = 0;
+		break;
+	case '0':
+		PlaySound("GB.wav", NULL, SND_ASYNC | SND_LOOP);
 		break;
 	case 27: /* escape */
 		exit(0);

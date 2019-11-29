@@ -2,7 +2,7 @@
 #include "tokens.h"
 #include <math.h>
 int xOrigin = -1;
-float algo = 0.0f;
+int jugador = 1;
 void mouseMove(int x, int y) {
 
 	// this will only be true when the left button is down
@@ -72,7 +72,7 @@ void tic() {
 				}
 				else if (y == -0.4f) {
 					glColor3f(1.0, 0.0, 1.0);
-					sphere(x, y, z, i + j + k+ algo);
+					sphere(x, y, z, i + j + k);
 				}
 
 
@@ -107,23 +107,30 @@ void draw() {
 void processHits(GLint hits, GLuint buffer[]){
 	unsigned int i, j, k;
 	GLuint ii, jj, names, *ptr;
-
-	//   printf ("hits = %d\n", hits);
 	ptr = (GLuint *)buffer;
-	for (i = 0; i < hits; i++) {	/*  for each hit  */
+	//for por cada hacierto
+	for (i = 0; i < hits; i++) {	
 		names = *ptr;
-		//      printf (" number of names for this hit = %d\n", names);
 		ptr++;
-		//      printf("  z1 is %g;", (float) *ptr/0x7fffffff);
 		ptr++;
-		//      printf(" z2 is %g\n", (float) *ptr/0x7fffffff);
 		ptr++;
+		//jugador 1
+		if (jugador == 1) {
+			cout << "jugador" << jugador << " juega "<<endl;
+			jugador++;
+		}
+		//jugador 2
+		else {
+			cout << "jugador" << jugador << " juega " << endl;
+			jugador--;
+		}
 		printf("\n objeto n° ");
-		for (j = 0; j < names; j++) { /*  for each name */
+		for (j = 0; j < names; j++) { //por cada nombre 
 			printf("%d ", *ptr);
 			k = *ptr - 1;
 			ptr++;
 		}
+		cout << "turno de jugador" << jugador;
 		printf("\n");
 	}
 }
@@ -133,10 +140,14 @@ void mouseButton(int button, int state, int x, int y) {
 	GLuint selectBuf[BUFSIZE];
 	GLint hits;
 	GLint viewport[16];
+	//cuando se suelta la musica principal vuelve a sonar
+	if (button != GLUT_LEFT_BUTTON || state == GLUT_UP)
+		PlaySound("GB.wav", NULL, SND_ASYNC | SND_LOOP);
 
 	if (button != GLUT_LEFT_BUTTON || state != GLUT_DOWN)
 		return;
-	//PlaySound("GTAS.wav", NULL, SND_ASYNC);
+	//sodido
+	PlaySound("GTAS.wav", NULL, SND_ASYNC |SND_LOOP);
 	glGetIntegerv(GL_VIEWPORT, viewport);
 
 	glSelectBuffer(BUFSIZE, selectBuf);
@@ -150,7 +161,6 @@ void mouseButton(int button, int state, int x, int y) {
 
 	gluPickMatrix((GLdouble)x, (GLdouble)(viewport[3] - y),
 		5.0, 5.0, viewport);
-	// gluOrtho2D (0.0, 3.0, 0.0, 3.0);
 	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -163,13 +173,12 @@ void mouseButton(int button, int state, int x, int y) {
 
 	hits = glRenderMode(GL_RENDER);
 	processHits(hits, selectBuf);
-
+	/*La pantalla se repintara en negro*/
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//glTranslatef(0.0, 0.0, -50);
-
+	/**/
 	glutPostRedisplay();
 }
