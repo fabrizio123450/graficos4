@@ -9,11 +9,18 @@
 #include <algorithm>
 #include <vector>
 #include <ctype.h>
+#include <windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
 //#include "mouse.h"
 using namespace std;
 //tikes que uso
 string tokens[10] = { "cubo", "color", "tran", "sca", "tam", "}", "tea" };
-
+int anglex = 0, angley = 0;
+#define WINDOW_WIDTH	480
+#define WINDOW_HEIGHT	480
+#define BUFSIZE 512
+float ratio = 0.0f;
 float angle = 0.0f;
 // representa la direccion de la camara
 float lx = 0.0f, lz = -1.0f;
@@ -72,7 +79,8 @@ GLuint LoadTexture(const char * filename)
 }
 
 
-void cube(float x, float y, float z) {
+void cube(float x, float y, float z, GLuint name) {
+	glPushName(name);
 	glEnable(GL_TEXTURE_GEN_S);
 	glEnable(GL_TEXTURE_GEN_T);
 	glBindTexture(GL_TEXTURE_2D, d);
@@ -82,10 +90,12 @@ void cube(float x, float y, float z) {
 	glTranslatef(x, y, z);
 	glScalef(0.25, 0.4, 0.25);
 	glutSolidCube(0.5f);
+	glPopName();
 	glPopMatrix();
 }
 
-void sphere(float x, float y, float z) {
+void sphere(float x, float y, float z, GLuint name) {
+	glPushName(name);
 	glEnable(GL_TEXTURE_GEN_S);
 	glEnable(GL_TEXTURE_GEN_T);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -94,5 +104,6 @@ void sphere(float x, float y, float z) {
 	glTranslatef(x, y, z);
 	glScalef(0.15, 0.25, 0.15);
 	glutSolidSphere(0.5f, 25, 25);
+	glPopName();
 	glPopMatrix();
 }
