@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <vector>
 #include <ctype.h>
+//#include "mouse.h"
 using namespace std;
 //tikes que uso
 string tokens[10] = { "cubo", "color", "tran", "sca", "tam", "}", "tea" };
@@ -35,8 +36,8 @@ GLuint LoadTexture(const char * filename)
 	file = fopen(filename, "rb");
 
 	if (file == NULL) return 0;
-	width = 1024;
-	height = 512;
+	width = 512;
+	height = 256;
 	data = (unsigned char *)malloc(width * height * 3);
 	//int size = fseek(file,);
 	fread(data, width * height * 3, 1, file);
@@ -76,6 +77,7 @@ void cube(float x, float y, float z) {
 	glEnable(GL_TEXTURE_GEN_T);
 	glBindTexture(GL_TEXTURE_2D, d);
 	glPushMatrix();
+	glColor3f(0.1, 0.0, 0.3);
 	glShadeModel(GL_SMOOTH);
 	glTranslatef(x, y, z);
 	glScalef(0.25, 0.4, 0.25);

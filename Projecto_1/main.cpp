@@ -1,6 +1,9 @@
 //#include "cubo.h"
 #include "tokens.h"
+#include "mouse.h"
+//Camera camera;
 int anglex = 0, angley = 0, anglez = 0;
+bool check = true;
 void init(void) {
 	glClearColor(0.623529f, 0.623529f, 0.372549f, 0.0);//inicializamos glut limpiando el color
 	glShadeModel(GL_SMOOTH);//para rellenar de color los polígonos. Si el parámetro es GL_FLAT, ogl rellenará los polígonos con el color activo
@@ -55,15 +58,15 @@ void tic() {
 				//
 				/*cambia el color segun el piso del tateti*/
 				if (y == 0.4f) {
-					//glColor3f(1.0, 0.0, 0.0);
+					glColor3f(1.0, 0.0, 0.0);
 					sphere(x, y, z);
 				}
 				else if (y == 0.0f) {
-					//	glColor3f(0.0, 0.0, 1.0);
+					glColor3f(0.0, 0.0, 1.0);
 					sphere(x, y, z);
 				}
 				else if (y == -0.4f) {
-					//	glColor3f(1.0, 0.0, 1.0);
+					glColor3f(1.0, 0.0, 1.0);
 					sphere(x, y, z);
 				}
 
@@ -71,6 +74,7 @@ void tic() {
 			}
 		}
 	}
+	//glutMouseFunc(mouseButton);
 
 
 
@@ -83,13 +87,13 @@ void rotate()
 	glRotatef(anglez, 0.0, 0.0, 1.0);			//rotate along z-axis
 }
 void reshape(int w, int h) {
-	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, (GLfloat)w / (GLfloat)h, 1.0, 30.0);
+	gluPerspective(45.0f, w / h, 0.1f, 100.0f);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
+	//glLoadIdentity();
+	//gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
 }
 /*
 renderisa con la posicion de la camara
@@ -104,6 +108,7 @@ void render_room() {
 	
 	rotate();
 	tic();
+	//glutMouseFunc(mouseButton);
 	glutSwapBuffers();
 }
 /*uso del teclado*/
@@ -181,19 +186,21 @@ void keyboard(unsigned char key, int xx, int yy) {
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(1280, 720);
-	glutInitWindowPosition(50, 0);
-	glutCreateWindow("ROOM");
+	glutInitWindowSize(480, 480);
+	glutInitWindowPosition(500, 100);
+	glutCreateWindow("Proyecto 4");
 	init();
 	texture = LoadTexture("b.bmp");
 	glBindTexture(GL_TEXTURE_2D, texture);
-	d = LoadTexture("h.bmp");
+	d = LoadTexture("c.bmp");
 	glBindTexture(GL_TEXTURE_2D, d);
 	glutDisplayFunc(render_room);
 	glutReshapeFunc(reshape);
 	glutIdleFunc(render_room);
 	glutSpecialFunc(ArrowKey);
 	glutKeyboardFunc(keyboard);
+	glutMouseFunc(mouseButton);
+	glutMotionFunc(mouseMove);
 	glEnable(GL_DEPTH_TEST);
 	glutMainLoop();
 	return 0;
